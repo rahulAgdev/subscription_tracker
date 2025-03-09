@@ -5,6 +5,7 @@ import userRouter from './routes/user.routes.js';
 import authRouter from './routes/auth.routes.js';
 import subscriptionRouter from './routes/subscription.routes.js';
 import e from 'express';
+import connectToDatabase from './database/mongodb.js';
 dotenv.config();
 const app = express();
 app.use('/api/v1/auth', authRouter)
@@ -14,9 +15,9 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.listen(PORT, () => {
-    console.log(PORT)
+app.listen(PORT, async() => {
     console.log(`Subscription Tracker App listening on https://localhost:${PORT}`)
+    await connectToDatabase();
 }).on('error', (err)=>{
     console.log('Error starting the server', err)})
 
